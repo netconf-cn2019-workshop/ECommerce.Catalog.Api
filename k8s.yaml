@@ -1,0 +1,62 @@
+#
+# Catalog Microservice Deployment + Service
+#
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: catalog-api
+  namespace: ecommerce
+  labels:
+    app: catalog-api
+    tier: backend
+spec:
+  selector:
+    app: catalog-api
+    tier: backend
+  ports:
+  - name: catalog-api
+    protocol: TCP
+    port: 8085
+    targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-api
+  namespace: ecommerce
+spec:
+  selector:
+    matchLabels:
+      app: catalog-api
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: catalog-api
+        tier: backend
+    spec:
+      containers:
+      - name: catalog-api
+        image: $$REGISTRY_SERVERcatalog-api:$$IMAGE_VERSION
+        imagePullPolicy: $$IMAGE_PULL_POLICY
+        ports:
+        - containerPort: 80
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "$$ENVIRONMENT_NAME"
+          - name: ASPNETCORE_ORCHESTRATOR
+            value: "k8s"
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3
