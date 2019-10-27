@@ -31,7 +31,7 @@ namespace ECommerce.Catalog.Api.Controllers
         [HttpGet]
         public IActionResult Get(string filter = null, bool includeServiceInfo = false)
         {
-            _logger.LogDebug($"Instance {_identityService.InstanceId} is returning products.");
+            _logger.LogDebug($"实例 {_identityService.InstanceId} 正在返回商品信息");
 
             var products = !string.IsNullOrWhiteSpace(filter) ?
                 _productRepository.GetAll(filter) : _productRepository.GetAll();

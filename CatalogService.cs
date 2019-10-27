@@ -14,14 +14,16 @@ namespace ECommerce.Catalog.Api
             _logger = logger;
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Running Catalog microservice");
+            _logger.LogInformation("商品目录 微服务已启动");
+            return Task.CompletedTask;
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken)
+        public Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Stopped Catalog microservice");
+            _logger.LogInformation("商品目录 微服务已停止");
+            return Task.CompletedTask;
         }
     }
 }
