@@ -2,10 +2,8 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CorrelationId;
-using ECommerce.Catalog.Api.Configuration;
 using ECommerce.Catalog.Api.Services;
 using ECommerce.Services.Common.Identity;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -31,9 +29,6 @@ namespace ECommerce.Catalog.Api
         {
             services.AddHealthChecks()
                 .AddSqlServer(Configuration["ConnectionStrings:ProductsDb"], tags: new[] { "db", "sql" });
-
-            services.AddSingleton<ITelemetryInitializer, CustomTelemetryInitializer>();
-            services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsights:InstrumentationKey"]);
             services.AddCorrelationId();
             services.AddMvc();
             services.AddHostedService<CatalogService>();
