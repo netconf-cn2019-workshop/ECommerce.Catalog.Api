@@ -50,7 +50,7 @@ namespace ECommerce.Catalog.Api.Services
             using (IDbConnection dbConnection = Connection)
             {
                 dbConnection.Open();
-                return dbConnection.Query<Product>($"SELECT * FROM Products P WHERE P.Name Like '%{filter}%'");
+                return dbConnection.Query<Product>($"SELECT * FROM Products P WHERE P.Name Like N'%{filter}%'");
             }
         }
 
